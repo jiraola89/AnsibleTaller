@@ -1,0 +1,88 @@
+---
+- hosts: webserver
+  remote_user: Ansible
+  become: yes
+  become_method: sudo
+  vars:
+    packages:
+    - httpd
+    - php
+    - mariadb-server
+
+  tasks:
+  - name: Epel repo is installed
+    yum: 
+      name: epel-release
+      state: present        
+        
+  - name: Install Apache WebServer
+    yum: 
+      name: httpd
+      state: present
+
+  - name: Install packages
+    yum:
+      name: "{{ packages }}"
+      state: latest
+
+  - name: Configure virtual host
+    template:
+      src: ./vhost_template.j2
+      dest: /etc/httpd/conf.d/vhost.conf
+      owner: root
+      group: root
+      mode: 0644
+    notify: Restart webserver
+
+  - name: Apache running and enabled
+    service:
+      name: httpd
+      state: started
+      enabled: true
+
+  - name: mariadb running and enabled
+    service: 
+      name: mariadb
+      state: started
+      enabled: true
+
+  - name: Verify mariadb is running
+    command: systemctl status mariadb
+    register: mariadb_status
+
+  - name: Verify apache is running
+    command: systemctl status httpd
+    register: httpd_status
+
+  - name: Show httpd status
+    debug: 
+      var: httpd_status
+
+  - name: Show mariadb status
+    debug:
+      var: mariadb_status
+
+  - name: Copy index
+    copy:
+      src: ./index.html
+      dest: /var/www/html/
+      owner: root
+      group: root
+      mode: 0644
+    notify: Restart webserver
+
+  - name: Open firewall httpd port
+    firewalld:
+      service: http
+      permanent: yes
+      state: enabled
+      zone: public      
+
+  handlers:
+  - name: Restart webserver
+    service: 
+      name: httpd
+      state: restarted
+      enabled: yes
+
+

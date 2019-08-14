@@ -1,0 +1,117 @@
+
+PLAY [webserver] ***********************************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [192.168.1.10]
+
+TASK [Epel repo is installed] **********************************************************************
+ok: [192.168.1.10]
+
+TASK [Install Apache WebServer] ********************************************************************
+ok: [192.168.1.10]
+
+TASK [Install packages] ****************************************************************************
+ok: [192.168.1.10]
+
+TASK [Configure virtual host] **********************************************************************
+ok: [192.168.1.10]
+
+TASK [Apache running and enabled] ******************************************************************
+ok: [192.168.1.10]
+
+TASK [mariadb running and enabled] *****************************************************************
+ok: [192.168.1.10]
+
+TASK [Verify mariadb is running] *******************************************************************
+changed: [192.168.1.10]
+
+TASK [Verify apache is running] ********************************************************************
+changed: [192.168.1.10]
+
+TASK [Show httpd status] ***************************************************************************
+ok: [192.168.1.10] => {
+    "httpd_status": {
+        "changed": true, 
+        "cmd": [
+            "systemctl", 
+            "status", 
+            "httpd"
+        ], 
+        "delta": "0:00:00.014672", 
+        "end": "2019-08-14 10:08:08.485192", 
+        "failed": false, 
+        "rc": 0, 
+        "start": "2019-08-14 10:08:08.470520", 
+        "stderr": "", 
+        "stderr_lines": [], 
+        "stdout": "● httpd.service - The Apache HTTP Server\n   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)\n   Active: active (running) since Wed 2019-08-14 10:06:02 -03; 2min 5s ago\n     Docs: man:httpd(8)\n           man:apachectl(8)\n  Process: 5839 ExecStop=/bin/kill -WINCH ${MAINPID} (code=exited, status=0/SUCCESS)\n Main PID: 5843 (httpd)\n   Status: \"Total requests: 0; Current requests/sec: 0; Current traffic:   0 B/sec\"\n   CGroup: /system.slice/httpd.service\n           ├─5843 /usr/sbin/httpd -DFOREGROUND\n           ├─5844 /usr/sbin/httpd -DFOREGROUND\n           ├─5845 /usr/sbin/httpd -DFOREGROUND\n           ├─5846 /usr/sbin/httpd -DFOREGROUND\n           ├─5847 /usr/sbin/httpd -DFOREGROUND\n           └─5848 /usr/sbin/httpd -DFOREGROUND\n\nAug 14 10:06:02 parcial1.ejemplo.com.uy systemd[1]: Stopped The Apache HTTP Server.\nAug 14 10:06:02 parcial1.ejemplo.com.uy systemd[1]: Starting The Apache HTTP Server...\nAug 14 10:06:02 parcial1.ejemplo.com.uy systemd[1]: Started The Apache HTTP Server.", 
+        "stdout_lines": [
+            "● httpd.service - The Apache HTTP Server", 
+            "   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)", 
+            "   Active: active (running) since Wed 2019-08-14 10:06:02 -03; 2min 5s ago", 
+            "     Docs: man:httpd(8)", 
+            "           man:apachectl(8)", 
+            "  Process: 5839 ExecStop=/bin/kill -WINCH ${MAINPID} (code=exited, status=0/SUCCESS)", 
+            " Main PID: 5843 (httpd)", 
+            "   Status: \"Total requests: 0; Current requests/sec: 0; Current traffic:   0 B/sec\"", 
+            "   CGroup: /system.slice/httpd.service", 
+            "           ├─5843 /usr/sbin/httpd -DFOREGROUND", 
+            "           ├─5844 /usr/sbin/httpd -DFOREGROUND", 
+            "           ├─5845 /usr/sbin/httpd -DFOREGROUND", 
+            "           ├─5846 /usr/sbin/httpd -DFOREGROUND", 
+            "           ├─5847 /usr/sbin/httpd -DFOREGROUND", 
+            "           └─5848 /usr/sbin/httpd -DFOREGROUND", 
+            "", 
+            "Aug 14 10:06:02 parcial1.ejemplo.com.uy systemd[1]: Stopped The Apache HTTP Server.", 
+            "Aug 14 10:06:02 parcial1.ejemplo.com.uy systemd[1]: Starting The Apache HTTP Server...", 
+            "Aug 14 10:06:02 parcial1.ejemplo.com.uy systemd[1]: Started The Apache HTTP Server."
+        ]
+    }
+}
+
+TASK [Show mariadb status] *************************************************************************
+ok: [192.168.1.10] => {
+    "mariadb_status": {
+        "changed": true, 
+        "cmd": [
+            "systemctl", 
+            "status", 
+            "mariadb"
+        ], 
+        "delta": "0:00:00.013254", 
+        "end": "2019-08-14 10:08:07.705263", 
+        "failed": false, 
+        "rc": 0, 
+        "start": "2019-08-14 10:08:07.692009", 
+        "stderr": "", 
+        "stderr_lines": [], 
+        "stdout": "● mariadb.service - MariaDB database server\n   Loaded: loaded (/usr/lib/systemd/system/mariadb.service; enabled; vendor preset: disabled)\n   Active: active (running) since Wed 2019-08-14 09:53:52 -03; 14min ago\n  Process: 3458 ExecStartPost=/usr/libexec/mariadb-wait-ready $MAINPID (code=exited, status=0/SUCCESS)\n  Process: 3401 ExecStartPre=/usr/libexec/mariadb-prepare-db-dir %n (code=exited, status=0/SUCCESS)\n Main PID: 3456 (mysqld_safe)\n   CGroup: /system.slice/mariadb.service\n           ├─3456 /bin/sh /usr/bin/mysqld_safe --basedir=/usr\n           └─3760 /usr/libexec/mysqld --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib64/mysql/plugin --log-error=/var/log/mariadb/mariadb.log --pid-file=/var/run/mariadb/mariadb.pid --socket=/var/lib/mysql/mysql.sock\n\nAug 14 09:53:48 parcial1.ejemplo.com.uy systemd[1]: Starting MariaDB database server...\nAug 14 09:53:49 parcial1.ejemplo.com.uy mariadb-prepare-db-dir[3401]: Database MariaDB is probably initialized in /var/lib/mysql already, nothing is done.\nAug 14 09:53:50 parcial1.ejemplo.com.uy mysqld_safe[3456]: 190814 09:53:50 mysqld_safe Logging to '/var/log/mariadb/mariadb.log'.\nAug 14 09:53:50 parcial1.ejemplo.com.uy mysqld_safe[3456]: 190814 09:53:50 mysqld_safe Starting mysqld daemon with databases from /var/lib/mysql\nAug 14 09:53:52 parcial1.ejemplo.com.uy systemd[1]: Started MariaDB database server.", 
+        "stdout_lines": [
+            "● mariadb.service - MariaDB database server", 
+            "   Loaded: loaded (/usr/lib/systemd/system/mariadb.service; enabled; vendor preset: disabled)", 
+            "   Active: active (running) since Wed 2019-08-14 09:53:52 -03; 14min ago", 
+            "  Process: 3458 ExecStartPost=/usr/libexec/mariadb-wait-ready $MAINPID (code=exited, status=0/SUCCESS)", 
+            "  Process: 3401 ExecStartPre=/usr/libexec/mariadb-prepare-db-dir %n (code=exited, status=0/SUCCESS)", 
+            " Main PID: 3456 (mysqld_safe)", 
+            "   CGroup: /system.slice/mariadb.service", 
+            "           ├─3456 /bin/sh /usr/bin/mysqld_safe --basedir=/usr", 
+            "           └─3760 /usr/libexec/mysqld --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib64/mysql/plugin --log-error=/var/log/mariadb/mariadb.log --pid-file=/var/run/mariadb/mariadb.pid --socket=/var/lib/mysql/mysql.sock", 
+            "", 
+            "Aug 14 09:53:48 parcial1.ejemplo.com.uy systemd[1]: Starting MariaDB database server...", 
+            "Aug 14 09:53:49 parcial1.ejemplo.com.uy mariadb-prepare-db-dir[3401]: Database MariaDB is probably initialized in /var/lib/mysql already, nothing is done.", 
+            "Aug 14 09:53:50 parcial1.ejemplo.com.uy mysqld_safe[3456]: 190814 09:53:50 mysqld_safe Logging to '/var/log/mariadb/mariadb.log'.", 
+            "Aug 14 09:53:50 parcial1.ejemplo.com.uy mysqld_safe[3456]: 190814 09:53:50 mysqld_safe Starting mysqld daemon with databases from /var/lib/mysql", 
+            "Aug 14 09:53:52 parcial1.ejemplo.com.uy systemd[1]: Started MariaDB database server."
+        ]
+    }
+}
+
+TASK [Copy index] **********************************************************************************
+ok: [192.168.1.10]
+
+TASK [Open firewall httpd port] ********************************************************************
+ok: [192.168.1.10]
+
+PLAY RECAP *****************************************************************************************
+192.168.1.10               : ok=13   changed=2    unreachable=0    failed=0   
+
